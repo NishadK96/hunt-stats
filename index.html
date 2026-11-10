@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0e0d">
+  <meta name="description" content="Guild monster hunt performance, rankings, and ready-to-send member messages.">
+  <title>Hunt Command · Guild Performance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="#overview" aria-label="Hunt Command home">
+      <span class="brand-mark" aria-hidden="true">HC</span>
+      <span><strong>HUNT COMMAND</strong><small>Guild intelligence</small></span>
+    </a>
+    <nav aria-label="Dashboard sections">
+      <a href="#overview">Overview</a>
+      <a href="#ranking">Ranking</a>
+      <a href="#messages">Messages</a>
+    </nav>
+    <button class="ghost-btn" id="copyReport">Copy weekly report</button>
+  </header>
+
+  <main>
+    <section class="hero" id="overview">
+      <div class="hero-copy">
+        <p class="eyebrow">WEEKLY HUNT REPORT <span id="dateRange">02–09 NOV 2026</span></p>
+        <h1>Every hunt.<br><em>Accounted for.</em></h1>
+        <p class="hero-text">A command view of guild performance, monster quality, target compliance, and the members who need a final push.</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#ranking">View full ranking</a>
+          <button class="text-btn" id="copyUnderTarget">Copy below-target list <span>↗</span></button>
+        </div>
+      </div>
+      <div class="target-orbit" aria-label="Guild target completion">
+        <svg viewBox="0 0 200 200" role="img">
+          <circle class="orbit-base" cx="100" cy="100" r="82"></circle>
+          <circle class="orbit-value" id="targetRing" cx="100" cy="100" r="82"></circle>
+        </svg>
+        <div class="orbit-label"><strong id="targetRate">—</strong><span>hit 35 pts</span></div>
+        <span class="orbit-note">TARGET COMPLIANCE</span>
+      </div>
+    </section>
+
+    <section class="metric-grid" aria-label="Guild summary">
+      <article class="metric featured"><span>Total guild points</span><strong id="totalPoints">—</strong><small id="pointsPerMember">— avg / member</small></article>
+      <article class="metric"><span>Tracked members</span><strong id="memberCount">—</strong><small id="activeMembers">— recorded activity</small></article>
+      <article class="metric"><span>Members on target</span><strong id="onTarget">—</strong><small id="onTargetPercent">— of guild</small></article>
+      <article class="metric alert"><span>Points still needed</span><strong id="shortfall">—</strong><small>to bring everyone to 35</small></article>
+    </section>
+
+    <section class="analysis-grid">
+      <article class="panel level-panel">
+        <div class="section-heading"><div><p class="eyebrow">HUNT QUALITY</p><h2>Monster level mix</h2></div><button class="icon-btn" data-copy="levels" aria-label="Copy monster level breakdown">Copy</button></div>
+        <div id="levelBars" class="level-bars"></div>
+        <p class="panel-note" id="qualityInsight">Calculating hunt quality…</p>
+      </article>
+      <article class="panel leaders-panel">
+        <div class="section-heading"><div><p class="eyebrow">TOP FORM</p><h2>Point leaders</h2></div><button class="icon-btn" data-copy="leaders">Copy</button></div>
+        <div id="leaderPodium" class="leader-podium"></div>
+      </article>
+    </section>
+
+    <section class="ranking-section" id="ranking">
+      <div class="section-heading ranking-heading">
+        <div><p class="eyebrow">FULL GUILD</p><h2>Performance ranking</h2></div>
+        <div class="table-tools">
+          <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Search member or ID" aria-label="Search members"></label>
+          <select id="statusFilter" aria-label="Filter by status"><option value="all">All members</option><option value="complete">Target complete</option><option value="close">Close to target</option><option value="behind">Needs attention</option></select>
+          <button class="ghost-btn" id="copyVisible">Copy visible rows</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Member</th><th>Hunt points</th><th>Progress</th><th>Hunts</th><th>High-level</th><th>Purchases</th><th>Action</th></tr></thead>
+          <tbody id="rankingBody"></tbody>
+        </table>
+      </div>
+      <p class="empty-state" id="emptyState" hidden>No members match this filter.</p>
+    </section>
+
+    <section class="message-section" id="messages">
+      <div class="message-intro"><p class="eyebrow">GUILD COMMS</p><h2>Messages that adapt<br>to the numbers.</h2><p>Select a message type and member. The copy updates with their real score, remaining points, and rank.</p></div>
+      <div class="message-builder panel">
+        <div class="builder-controls">
+          <label>Message type<select id="messageType"><option value="reminder">Target reminder</option><option value="close">Final push</option><option value="congrats">Goal achieved</option><option value="recognition">Top performer</option></select></label>
+          <label>Guild member<select id="memberSelect"></select></label>
+        </div>
+        <div class="message-card">
+          <div class="message-meta"><span>READY TO SEND</span><span id="messageStatus">PERSONAL MESSAGE</span></div>
+          <p id="messagePreview"></p>
+          <button class="primary-btn" id="copyMessage">Copy message</button>
+        </div>
+      </div>
+      <div class="broadcast panel">
+        <div><p class="eyebrow">ONE-TAP BROADCAST</p><h3>Weekly guild summary</h3><p id="broadcastPreview"></p></div>
+        <button class="ghost-btn" id="copyBroadcast">Copy broadcast</button>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>HUNT COMMAND / WEEKLY INTELLIGENCE</span><span>35 POINT TARGET · DATA THROUGH 09 NOV 2026</span></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard</div>
+  <script src="app.js" defer></script>
+</body>
+</html>
